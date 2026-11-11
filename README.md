@@ -1,6 +1,6 @@
 # CloudNotes Release Repair
 
-Repair three bounded configuration defects, then verify CloudNotes locally. Fork this repository, clone your fork, create `fix/local-release`, and open the folder in your IDE. Assessment is provided separately by your instructor.
+Repair three bounded configuration defects, then verify CloudNotes locally. Fork this repository, clone your fork, create `fix/local-release`, and open the folder in your IDE. Repair scope, runtime contract and checks follow below.
 
 ## Submission boundary — do not modify the question repository
 
@@ -8,9 +8,15 @@ This repository is the intentionally broken question starter. **Do not push any 
 
 ## Free local setup
 
-Use Terraform >=1.4 and <2, Git, curl, Docker Engine and Docker Compose v2 supporting `up --wait`, and a free IDE/PDF exporter. Docker Desktop is optional only where its free-use licence applies. No paid tools, cloud resources, registry login, or real credentials are needed. Your instructor prepares tools and caches before the 35-minute assessment. First image/package downloads need internet, not payment.
+Use Terraform >=1.4 and <2, Git, curl, Docker Engine and Docker Compose v2 supporting `up --wait`, and a free IDE/PDF exporter. Docker Desktop is optional only where its free-use licence applies. No paid tools, cloud resources, registry login, or real credentials are needed. Prepare tools and caches yourself before timed work. Linux, macOS or WSL2 with amd64/arm64 Docker, Bash and Python 3 are supported. Allow 2 CPUs, 4 GB free memory and 10 GB disk. First image/package downloads need internet, not payment.
 
-Host ports 5050 (local registry) and 8080 (web) must be free. The prepared Docker engine must support the loopback HTTP registry. Do not install or reconfigure Docker during the exam.
+Host ports 5050 (local registry) and 8080 (web) must be free. Run before timing:
+
+```bash
+bash scripts/prerequisites.sh
+```
+
+Wait for `PREREQUISITES READY`. Helper checks versions/ports, validates isolated built-in Terraform probe without changing broken input, pulls base/database/registry images, builds unchanged correct dependency stage and performs actual push/pull through temporary loopback-only registry. Temporary registry is removed automatically. Publish helper later starts owned registry project. Build-stage layers warm actual dependency cache, not an offline-build guarantee; evicted caches or changed dependencies may still need internet. Initial build/cache rehearsal is ungraded. Do not begin timing on setup failure or reconfigure daemon security during tasks. No unknown containers are removed.
 
 ## Files to repair
 
@@ -59,7 +65,7 @@ Compose runs `web` and PostgreSQL `db` on its project network. Host requests use
 
 ## Evidence and cleanup
 
-Submit the separately specified PDF with one real editor/terminal capture per task and your fork URL. Commit and push only the three repaired files; do not commit state, plans, credentials, or generated evidence into this starter repository.
+Submit one PDF with one real editor/terminal capture per task and your fork URL. Commit and push only the three repaired files; do not commit state, plans, credentials, or generated evidence into this starter repository.
 
 ```bash
 git add terraform/main.tf Dockerfile compose.yaml
